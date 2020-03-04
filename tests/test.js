@@ -9,6 +9,17 @@ client.on("ready", () => {
     console.log("Ready. Logged as "+client.user.tag+" in "+client.guilds.cache.size+" servers.");
 });
 
+/* Guild Channel Events */
+// Events related to the guildChannelUpdate event.
+
+client.on("guildChannelPermissionsChanged", (channel, oldPermissions, newPermissions) => {
+  console.log(channel.name+"'s permissions changed!");
+});
+
+client.on("unhandledGuildChannelUpdate", (oldChannel, newChannel) => {
+  console.log("Channel '"+oldChannel.id+"' was edited but discord-logs couldn't find what was updated...");
+});
+
 /* Guild Member Events */
 // Events related to the guildMemberUpdate event.
 
@@ -57,6 +68,10 @@ client.on("guildBannerAdd", (guild, bannerURL) => {
 
 client.on("guildAfkChannelAdd", (guild, afkChannel) => {
   console.log(guild.name+" has an AFK channel now!");
+});
+
+client.on("guildVanityURLAdd", (guild, vanityURL) => {
+  console.log(guild.name+" has added a vanity url : "+vanityURL);
 });
 
 client.on("unhandledGuildUpdate", (oldGuild, newGuild) => {

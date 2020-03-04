@@ -1,13 +1,12 @@
 {
   "name": "discord-logs",
-  "version": "1.7.2",
+  "version": "1.7.4",
   "description": "Add many useful events to your Discord.js client!",
   "main": "lib/index.js",
   "files": [
     "lib/**/*"
   ],
   "scripts": {
-    "prepare": "npm run format && npm run build && npm run generate-docs && npm run generate-test && npm run test",
     "test": "node tests/test.js",
     "generate-docs": "node scripts/generate-docs.js",
     "generate-test": "node scripts/generate-test.js",
