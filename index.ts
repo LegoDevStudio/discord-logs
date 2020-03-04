@@ -1,6 +1,7 @@
 import { Client, Guild, GuildMember, GuildChannel, Presence, Role, User, Message } from 'discord.js';
 import {
     handleGuildMemberUpdateEvent,
+    handleGuildMemberRemoveEvent,
     handleGuildUpdateEvent,
     handleMessageUpdateEvent,
     handlePresenceUpdateEvent,
@@ -19,6 +20,10 @@ export = async (client: Client) => {
     /* HANDLE MEMBER EVENTS */
     client.on('guildMemberUpdate', (oldMember: GuildMember, newMember: GuildMember) => {
         handleGuildMemberUpdateEvent(client, oldMember, newMember);
+    });
+    
+    client.on('guildMemberRemove', (member: GuildMember, guild: Guild) => {
+        handleGuildMemberRemoveEvent(client, member, guild); 
     });
 
     /* HANDLE GUILD EVENTS */
