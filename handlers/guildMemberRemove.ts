@@ -1,10 +1,10 @@
-import { Client, GuildMember, Guild} from 'discord.js';
+import { Client, GuildMember} from 'discord.js';
 
 /**
  * @handler Guild Member Leave Events
  * @related guildMemberRemove
  */
- export async function handleGuildMemberRemoveEvent(client: Client, member: GuildMember, guild: Guild) {
+ export async function handleGuildMemberRemoveEvent(client: Client, member: GuildMember) {
     let emitted = false;
     
     
@@ -12,17 +12,20 @@ import { Client, GuildMember, Guild} from 'discord.js';
      * @event guildMemberKicked
      * @description Emitted when a member was kicked.
      * @param {DJS:GuildMember} member The member who was kicked.
+     * @param {String} reason The reason for the kick.
+     * @param {DJS:User} moderator The moderator who kicked the member.
      * @example
-     * client.on("guildMemberKicked", (member) => {
+     * client.on("guildMemberKicked", (member, reason, moderator) => {
      *   console.log(member.user.tag+" has been kicked from "+member.guild.name+"...");
      * });
      */
-    guild.fetchAuditLogs({"limit":1,"user":member.user,"type":20}).then(logs => { // 20 = KICK
-        if(logs.entires.size >= 1) {
+    member.guild.fetchAuditLogs({"limit":1,"type":20}).then(logs => { // 20 = KICK
+        console.log(logs.entries.array());
+        if(logs.entries.size >= 1) {
             let auditLog = logs.entries.first();
-            if((Date.now() - auditLog.createdTimestamp) < 1000) { // To prevent false positives.
-                client.emit("guildMemberKicked", member, guild, auditLog.reason, auditLog.executor.username);
-                emitted = true;
+            console.log(auditLog);
+            if(auditLog.target.id == member.user.id) { // To prevent false positives.
+                Client.emit("guildMemberKicked", member, auditLog.reason, auditLog.executor);
             }
         }
     });
