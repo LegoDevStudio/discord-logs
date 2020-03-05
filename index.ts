@@ -22,8 +22,8 @@ export = async (client: Client) => {
         handleGuildMemberUpdateEvent(client, oldMember, newMember);
     });
     
-    client.on('guildMemberRemove', (member: GuildMember, guild: Guild) => {
-        handleGuildMemberRemoveEvent(client, member, guild); 
+    client.on('guildMemberRemove', (member: GuildMember) => {
+        handleGuildMemberRemoveEvent(client, member); 
     });
 
     /* HANDLE GUILD EVENTS */
